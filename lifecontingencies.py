@@ -156,6 +156,32 @@ def mx(mt,x):
     """ mx : Returns the central mortality rate """
     return dx(mt,x) / mt.lx[x]
 
+# Joint Lives ------------------
+
+def pxy(mtx,mty,x,y):
+    """ pxy : Returns the probability of life x (subject to mortality mtx) and life y (subject to mortality mty) both surviving for 1 year """
+    return px(mtx, x)*px(mty, y)
+
+def tpxy(mtx,mty,x,y,t):
+    """ tpxy : Returns the probability of life x (subject to mortality mtx) and life y (subject to mortality mty) both surviving for t years """
+    return tpx(mtx,x,t)*tpx(mty,y,t)
+
+def tpxy_bar(mtx,mty,x,y,t):
+    """ tpxy_bar : Returns the probability that at least one of life x (subject to mortality mtx) and life y (subject to mortality mty) are alive after t years """
+    return tpx(mtx,x,t)+tpx(mty,y,t)-tpxy(mtx,mty,x,y,t)
+
+def tqxy(mtx,mty,x,y,t):
+    """ tqxy : Returns the probability of at least one of life x (subject to mortality mtx) and life y (subject to mortality mty) dies within t years """
+    return 1-tpxy(mtx,mty,x,y,t)
+
+def tqxy_bar(mtx,mty,x,y,t):
+    """ tqxy_bar : Returns the probability that both life x (subject to mortality mtx) and life y (subject to mortality mty) die within t years """
+    return tqx(mtx,x,t)*tqx(mty,y,t)
+
+def k_qxy_bar(mtx,mty,x,y,t):
+    """ k_qxy_bar : Returns the probability that both life x (subject to mortality mtx) and life y (subject to mortality mty) die within t years """
+    return tqx(mtx,x,t)*tqx(mty,y,t)
+
 # Commutations ------------------
 
 def Dx(mt,x):
